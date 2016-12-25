@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Train Time</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body class="container">
+    <header class="jumbotron">
+        <h2>Anytime is Train Time</h2>
+    </header>
+    <main>
+        <section class="card table-responsive">
+            <h5 class="card-header">Train Times</h5>
+            <table class="table table-striped">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Train Name</th>
+                        <th>Destination</th>
+                        <th>Frequency (min)</th>
+                        <th>Departure</th>
+                        <th>Wait Time</th>
+                    </tr>
+                </thead>
+                <tbody id="trainTimes">
+
+                </tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h5 class="card-header">Add a Train</h5>
+            <form class="card-block">
+                <div class="form-group">
+                    <label for="trainName">Train Name</label>
+                    <input type="text" class="form-control" id="trainName" required>
+                </div>
+                <div class="form-group">
+                    <label for="trainDestination">Train Destination</label>
+                    <input type="text" class="form-control" id="trainDestination" required>
+                </div>
+                <div class="form-group">
+                    <label for="trainTimeHour">First Train Time (HH:MM military time)</label>
+                    <select class="form-control" id="trainTimeHour">
+                        <option value="" disabled selected>Select hour</option>
+                    </select>
+                    <select class="form-control" id="trainTimeMinute" style="margin-top: 10px;">
+                        <option value="" disabled selected>Select minute</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="trainFreq">Train Frequency (minutes)</label>
+                    <input type="text" class="form-control" id="trainFreq" required>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addTrain">Submit</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="node_modules/moment/moment.js"></script>
+        <script src="assets/js/main.js"></script>
+    </footer>
+</body>
+</html>
