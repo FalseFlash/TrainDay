@@ -8,6 +8,10 @@ var config = {
 
 firebase.initializeApp(config);
 
+var trains = [];
+
+var database = firebase.database();
+
 moment.updateLocale('en', {
     relativeTime : {
         future: "%s",
@@ -21,7 +25,7 @@ var _classCallCheck = function(instance, Constructor) {
     }
 };
 
-function Train(name, dest, time, freq, firstHour, firstMin) {
+function Train(name, dest, time, freq) {
     _classCallCheck(this, Train);
 
     if (!(name) || !(dest) ||
@@ -48,6 +52,11 @@ Train.prototype.push = function(tableSelector) {
     if(!tableSelector.length)
         throw new TypeError("Selected table is missing");
 
+    if(trains.indexOf(this.trainName) !== -1)
+        return;
+
+    trains.push(this.trainName);
+
     $(tableSelector).append(
         "<tr>" +
             "<th scope='\"row\"'>"+ this.trainName +"</th>" +
@@ -58,16 +67,33 @@ Train.prototype.push = function(tableSelector) {
         "</tr>"
     , null);
 
-    var database = firebase.database();
-    var data = {
+    database.ref().push({
         name: this.trainName,
         freq: this.trainFreq,
-        time: this.trainTime,
+        time: this.trainTime.toString(),
         dest: this.trainDest
-    };
-
-    database.ref().child('trains/' + this.trainName).set(data);
+    });
 };
+
+function getTrainData(tableSelector) {
+    database.ref().on("child_added", function(snapshot) {
+        var values = snapshot.val();
+
+        if(trains.indexOf(values.name) !== -1)
+            return;
+
+        trains.push(values.name);
+        $(tableSelector).append(
+            "<tr>" +
+            "<th scope='\"row\"'>"+ values.name +"</th>" +
+            "<th>"+ values.dest +"</th>" +
+            "<th>"+ values.freq +"</th>" +
+            "<th>"+ moment(values.time).format("hh:mm A") +"</th>" +
+            "<th>"+ moment(values.time).fromNow() +"</th>" +
+            "</tr>"
+            , null);
+    });
+}
 
 $(document).ready( function() {
     (function() {
@@ -88,6 +114,8 @@ $(document).ready( function() {
         }
     })();
 
+    getTrainData("#trainTimes");
+
     $("#addTrain").on("click", function(e) {
         e.preventDefault();
 
@@ -99,7 +127,7 @@ $(document).ready( function() {
 
         var trainFormattedTime = moment(firstTrainHour + ":" + firstTrainMin, "hh:mm");
 
-        var train = new Train(trainName, trainDest, trainFormattedTime, trainFreq, firstTrainHour, firstTrainMin);
+        var train = new Train(trainName, trainDest, trainFormattedTime, trainFreq);
         train.push("#trainTimes");
     });
 });
