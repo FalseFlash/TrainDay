@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-To run this application you will need Node.JS and NPM installed on your system.
+None.
 
 ### Installing
 First, clone the project:
@@ -17,7 +17,7 @@ git clone https://github.com/FalseFlash/TrainDay.git
 ```
 
 
-You will then need to upload the project to a web server or application deployment service like Heroku. Make sure to change the API keys to firebase to match yours.
+You will then need to upload the project to a web server or application deployment service like Heroku or just run it on your local system. Make sure to change the API keys to firebase to match yours.
 
 
 ## Built With
